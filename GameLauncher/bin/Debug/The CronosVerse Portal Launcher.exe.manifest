@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="The CronosVerse Portal Launcher.exe" size="82952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="The CronosVerse Portal Launcher.exe" size="92680">
       <assemblyIdentity name="The CronosVerse Portal Launcher" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Gvp48XxRS/jKAvjnt0goeCxv4qUsR7IUT9RPWbpSe8Q=</dsig:DigestValue>
+        <dsig:DigestValue>NUt428LGiD34HjkNHJaufAuG5g1y2xbjLZsqtaYbCrI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

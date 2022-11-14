@@ -40,9 +40,11 @@ namespace GameLauncher
                 {
                     case LauncherStatus.ready:
                         PlayButton.Content = "Play";
+                        progressBar.Visibility = Visibility.Hidden;
                         break;
                     case LauncherStatus.failed:
                         PlayButton.Content = "Update Failed - Retry";
+                        progressBar.Visibility = Visibility.Hidden;
                         break;
                     case LauncherStatus.downloadingGame:
                         PlayButton.Content = "Downloading Game";
@@ -82,7 +84,14 @@ namespace GameLauncher
             }
             else
             {
-                InstallGameFiles(false, Version.zero);
+                if (MessageBox.Show("No game files found on device, install The CronosVerse?", "No Game Found", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    InstallGameFiles(false, Version.zero);
+                }
+                else 
+                {
+                    Close();
+                }
             }
         }
         private void DownloadVersionCompletedCallback(object sender, AsyncCompletedEventArgs e)
@@ -93,7 +102,14 @@ namespace GameLauncher
                 Version onlineVersion = new Version(File.ReadAllText(newVersionFile));
                 if (onlineVersion.IsDifferentThan(localVersion))
                 {
-                    InstallGameFiles(true, onlineVersion);
+                    if (MessageBox.Show("New game version found, install the latest version of The CronosVerse?", "New Update Found", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        InstallGameFiles(true, onlineVersion);
+                    }
+                    else
+                    {
+                        Close();
+                    }
                 }
                 else
                 {
@@ -111,6 +127,8 @@ namespace GameLauncher
 
             private void InstallGameFiles(bool _isUpdate, Version _onlineVersion)
         {
+            progressBar.Visibility = Visibility.Visible;
+            gameProgress.Visibility = Visibility.Visible;
             try
             {
                 WebClient webClient = new WebClient();
@@ -124,6 +142,18 @@ namespace GameLauncher
                     _onlineVersion = new Version(webClient.DownloadString("https://versionholder.s3.us-east-2.amazonaws.com/Version.txt"));
                 }
                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
+                webClient.DownloadProgressChanged += (s, e) =>
+                {
+                    progressBar.Value = e.ProgressPercentage;
+                    gameProgress.Text = e.ProgressPercentage.ToString() + "%";
+                };
+                webClient.DownloadFileCompleted += (s, e) =>
+                {
+                    progressBar.Visibility = Visibility.Hidden;
+                    gameProgress.Visibility = Visibility.Hidden;
+                    // any other code to process the file
+                };
+
                 webClient.DownloadFileAsync(new Uri("https://currentversion.s3.amazonaws.com/build.zip"), gameZip, _onlineVersion);
             }
             catch (Exception ex)
@@ -142,14 +172,13 @@ namespace GameLauncher
 
                 string onlineVersion = ((Version)e.UserState).ToString();
                 fastZip.ExtractZip(gameZip, rootPath, fileFilter);
-
-                //ZipFile.ExtractToDirectory(gameZip, rootPath, true);
                 
                 File.Delete(gameZip);
 
                 File.WriteAllText(versionFile, onlineVersion);
 
                 VersionText.Text = onlineVersion;
+                progressBar.Visibility = Visibility.Hidden;
                 Status = LauncherStatus.ready;
             }
             catch (Exception ex)
@@ -179,6 +208,7 @@ namespace GameLauncher
                 CheckForUpdates();
             }
         }
+
     }
     
     struct Version

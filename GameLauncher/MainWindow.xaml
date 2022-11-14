@@ -8,12 +8,14 @@
         WindowStartupLocation="CenterScreen"
         ContentRendered="Window_ContentRendered"
         Title="The CronosVerse Portal" Height="576" Width="1080">
-    
+
     <Grid>
         <Image Stretch="UniformToFill" Source="https://i.ibb.co/3z1cW8J/Crons-Verse-Banner.png"/>
         <TextBlock Name="VersionText" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Foreground="White" Margin="0, 0, 5, 0"/>
-        <Button Name="PlayButton" Content="Checking For Updates" Click="PlayButton_Click" Height="60" FontFamily="/Fonts/RussoOne-Regular.ttf#RussoOne" FontSize="28" FontWeight="Bold" Background="#42A5F5" Foreground="#DDFFFFFF" Padding="10, 10, 10, 10" Margin="0, 0, 0 15" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="150"/>
-        
-        
+        <Button Name="PlayButton" Content="Checking For Updates" Click="PlayButton_Click" Height="60" FontFamily="/Fonts/RussoOne-Regular.ttf#RussoOne" FontSize="28" FontWeight="Bold" Background="#42A5F5" Foreground="#DDFFFFFF" Padding="10, 10, 10, 10" Margin="0, 0, 0 55" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="150"/>
+        <ProgressBar Visibility="Hidden" Name="progressBar" Height="25" Width="650" Value="0" Foreground="#42A5F5" Background="LightSlateGray" Margin="0, 500, 0, 0" Orientation="Horizontal" />
+        <TextBlock Name="gameProgress" FontSize="19" Foreground="White" Margin="524,507,484,13" FontFamily="/Fonts/RussoOne-Regular.ttf#RussoOne"/>
+
     </Grid>
+    
 </Window>
